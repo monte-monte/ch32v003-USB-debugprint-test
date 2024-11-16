@@ -15,3 +15,6 @@ Provided example would output both to minichlink and [WebLink](https://subjectiv
 ``make``
 
 ``make flash``
+
+Go to https://subjectiverealitylabs.com/WeblinkUSB/
+![demo](https://github.com/user-attachments/assets/f6c79832-5721-48b6-a186-eb1d9c997e35)
