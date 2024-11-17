@@ -6,7 +6,7 @@
 #include "swio.h"
 
 uint8_t scratch[80];
-volatile uint8_t print_buf[8];
+volatile uint8_t print_buf[8] = {0x80, 0x64, 0x6D, 0x6C, 0x6F, 0x63, 0x6B};
 volatile uint32_t something = 1;
 volatile uint8_t transmission_done;
 volatile uint32_t systick_cnt;
@@ -17,6 +17,7 @@ volatile uint8_t* print_pos = 0xE0000000;
 uint32_t usb_cnt;
 
 uint32_t count;
+bool dm_unlocked = false;
 
 volatile int last = 0;
 void handle_debug_input( int numbytes, uint8_t * data )
@@ -81,10 +82,13 @@ void usb_handle_hid_get_report_start( struct usb_endpoint * e, int reqLen, uint3
   // Please note, that on some systems, for this to work, your return length must
   // match the length defined in HID_REPORT_COUNT, in your HID report, in usb_config.h
   if ((lValueLSBIndexMSB & 0xFF) == 0xAB) {
-    memcpy(print_buf, (uint8_t*)DMDATA0, 4);
-    memcpy(print_buf+4, (uint8_t*)DMDATA1, 4);
-    *DMDATA0 = 0x0;
-    *DMDATA1 = 0x0; 
+    if ((*DMDATA0 != *DMDATA1) && *DMDATA0) dm_unlocked = true;
+    if (dm_unlocked) {
+      memcpy(print_buf, (uint8_t*)DMDATA0, 4);
+      memcpy(print_buf+4, (uint8_t*)DMDATA1, 4);
+      *DMDATA0 = 0x0;
+      *DMDATA1 = 0x0;
+    }
     e->opaque = print_buf;
     e->max_len = 8;
   } else {
