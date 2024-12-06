@@ -16,7 +16,19 @@ Provided example would output both to minichlink and [WebLink](https://subjectiv
 
 ``make flash``
 
-Go to https://subjectiverealitylabs.com/WeblinkUSB/
+If you're on linux, you may need to add udev rule:
+
+```
+echo -ne "KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\", MODE=\"0664\", GROUP=\"plugdev\"\n" | sudo tee /etc/udev/rules.d/20-hidraw.rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+```
+For this to work you need to use Google Chrome, or any Chromium-based browser (currently it doesn't work on Android, sadly).
+
+Go to https://subjectiverealitylabs.com/WeblinkUSB/ and press ``t`` button in the UI.
+There are relevant terminal settings that can be reached by pressing cog button in the top right corner and selecting ``Terminal`` section.
+
+(If you hate animations, there is also an option to disable them)
 
 <img src="https://github.com/user-attachments/assets/f6c79832-5721-48b6-a186-eb1d9c997e35" width="500px">
 
