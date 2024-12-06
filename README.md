@@ -33,3 +33,6 @@ There are relevant terminal settings that can be reached by pressing cog button 
 <img src="https://github.com/user-attachments/assets/f6c79832-5721-48b6-a186-eb1d9c997e35" width="500px">
 
 If you see continuous string of ``dmlock`` try pressing ``u`` button in the UI. It should unlock Debug Module and you should see the terminal output as shown above. If not, please share you results, so we can figure out universal unlocking procedure.
+
+If you want to run the tool locally, or maybe make changes to it, you can get it here:
+https://github.com/Subjective-Reality-Labs/WebLink_USB
