@@ -6,7 +6,8 @@
 #include "swio.h"
 
 uint8_t scratch[80];
-volatile uint8_t print_buf[8] = {0x80, 0x64, 0x6D, 0x6C, 0x6F, 0x63, 0x6B};
+// volatile uint8_t print_buf[8] = {0x8A, 0x64, 0x6D, 0x6C, 0x6F, 0x63, 0x6B};
+volatile uint8_t print_buf[8] = {0x8A, 'd', 'm', 'l', 'o', 'c', 'k'};
 volatile uint32_t something = 1;
 volatile uint8_t transmission_done;
 volatile uint32_t systick_cnt;
