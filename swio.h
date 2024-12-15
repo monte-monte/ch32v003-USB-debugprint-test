@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SWIOH
+#define SWIOH
 #include <ch32v003fun.h>
 #define MAX_IN_TIMEOUT 1000
 #define T1COEFF 2
@@ -36,13 +37,14 @@ static inline void Send1Bit(uint8_t t1coeff)
 
 	AFIO->PCFR1 |= AFIO_PCFR1_SWJ_CFG_DISABLE;
 	funDigitalWrite(PD1, 0);
-  AFIO->PCFR1 &= ~(AFIO_PCFR1_SWJ_CFG_DISABLE);
   PrecDelay(t1coeff);
+  AFIO->PCFR1 &= ~(AFIO_PCFR1_SWJ_CFG_DISABLE);
   
 	AFIO->PCFR1 |= AFIO_PCFR1_SWJ_CFG_DISABLE;
 	funDigitalWrite(PD1, 1);
+  PrecDelay(t1coeff);
   AFIO->PCFR1 &= ~(AFIO_PCFR1_SWJ_CFG_DISABLE);
-	PrecDelay(t1coeff);
+	
 }
 
 static inline void Send0Bit(uint8_t t1coeff)
@@ -51,12 +53,14 @@ static inline void Send0Bit(uint8_t t1coeff)
 	// High for a nominal period of time.
 	AFIO->PCFR1 |= AFIO_PCFR1_SWJ_CFG_DISABLE;
 	funDigitalWrite(PD1, 0);
-  AFIO->PCFR1 &= ~(AFIO_PCFR1_SWJ_CFG_DISABLE);
-	PrecDelay(t1coeff*4);
-	AFIO->PCFR1 |= AFIO_PCFR1_SWJ_CFG_DISABLE;
-	funDigitalWrite(PD1, 1);
+  PrecDelay(t1coeff*3);
   AFIO->PCFR1 &= ~(AFIO_PCFR1_SWJ_CFG_DISABLE);
 	PrecDelay(t1coeff);
+	AFIO->PCFR1 |= AFIO_PCFR1_SWJ_CFG_DISABLE;
+	funDigitalWrite(PD1, 1);
+  PrecDelay(t1coeff);
+  AFIO->PCFR1 &= ~(AFIO_PCFR1_SWJ_CFG_DISABLE);
+	
 }
 
 // returns 0 if 0
@@ -183,3 +187,17 @@ static void MCFWriteReg32(uint8_t command, uint32_t value, uint8_t t1coeff)
 // 	Delay_Ms(8); // Sometimes 2 is too short.
 // 	return 0;
 // }
+void attempt_unlock(uint8_t t1coeff) {
+  // if (*DMDATA0 == *DMDATA1 && *DMDATA0) {
+  if (*DMSTATUS_SENTINEL) {
+    AFIO->PCFR1 &= ~(AFIO_PCFR1_SWJ_CFG);
+    funPinMode(PD1, GPIO_Speed_50MHz | GPIO_CNF_OUT_PP);
+    MCFWriteReg32(DMSHDWCFGR, 0x5aa50000 | (1<<10), t1coeff); // Shadow Config Reg
+    MCFWriteReg32(DMCFGR, 0x5aa50000 | (1<<10), t1coeff); // CFGR (1<<10 == Allow output from slave)
+    MCFWriteReg32(DMCFGR, 0x5aa50000 | (1<<10), t1coeff); // Bug in silicon?  If coming out of cold boot, and we don't do our little "song and dance" this has to be called.
+    MCFWriteReg32(DMABSTRACTAUTO, 0x00000000, t1coeff);
+    MCFWriteReg32(DMCONTROL, 0x80000001 | (1<<10), t1coeff); // Bug in silicon?  If coming out of cold boot, and we don't do our little "song and dance" this has to be called.
+    MCFWriteReg32(DMCONTROL, 0x40000001 | (1<<10), t1coeff); // Bug in silicon?  If coming out of cold boot, and we don't do our little "song and dance" this has to be called.
+  }
+}
+#endif

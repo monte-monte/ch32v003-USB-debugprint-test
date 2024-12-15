@@ -12,10 +12,11 @@
 #define RV003USB_DEBUG_TIMING      0
 #define RV003USB_OPTIMIZE_FLASH    1
 #define RV003USB_EVENT_DEBUGGING   0
-#define RV003USB_HANDLE_IN_REQUEST 1
-#define RV003USB_OTHER_CONTROL     1
-#define RV003USB_HANDLE_USER_DATA  1
-#define RV003USB_HID_FEATURES      1
+#define RV003USB_HANDLE_IN_REQUEST 0
+#define RV003USB_OTHER_CONTROL     0
+#define RV003USB_HANDLE_USER_DATA  0
+#define RV003USB_HID_FEATURES      0
+#define RV003USB_USB_TERMINAL      1
 
 
 #ifndef __ASSEMBLER__
@@ -53,6 +54,10 @@ static const uint8_t special_hid_desc[] = {
 		HID_FEATURE        ( HID_DATA | HID_VARIABLE | HID_ABSOLUTE ) ,
 		HID_REPORT_COUNT   ( 7 ), // For use with `hidapitester --vidpid 1209/D003 --open --read-feature 171`
 		HID_REPORT_ID      ( 0xab )
+		HID_USAGE          ( 0x01 ),
+		HID_FEATURE        ( HID_DATA | HID_VARIABLE | HID_ABSOLUTE ) ,
+		HID_REPORT_COUNT   ( 7 ), // For use with `hidapitester --vidpid 1209/D003 --open --read-feature 171`
+		HID_REPORT_ID      ( 0xfd )
 		HID_USAGE          ( 0x01 ),
 		HID_FEATURE        ( HID_DATA | HID_VARIABLE | HID_ABSOLUTE ) ,
 	HID_COLLECTION_END,
