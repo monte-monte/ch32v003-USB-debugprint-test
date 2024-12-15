@@ -10,7 +10,7 @@ Provided example would output both to minichlink and [WebLink](https://subjectiv
 
 ``cd ch32v003-USB-debugprint-test``
 
-``git submodule update``
+``git submodule init && git submodule update``
 
 ``make``
 
