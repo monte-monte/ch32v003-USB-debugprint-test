@@ -3,16 +3,14 @@ The idea is to use the same ``printf`` function that is used to print to minichl
 Provided example would output both to minichlink and [WebLink](https://subjectiverealitylabs.com/WeblinkUSB/)'s termial (not at the same time ideally).
 
 # TODO:
-- Add usb terminal polling function to minichlink
+- [x] ~~Add usb terminal polling function to minichlink~~
 
 # To try:
-``git clone https://github.com/monte-monte/ch32v003-USB-debugprint-test/``
+``git clone https://github.com/monte-monte/ch32v003-USB-debugprint-test/ --recursive``
 
 ``cd ch32v003-USB-debugprint-test``
 
-``git submodule init && git submodule update``
-
-``make``
+Edit ``usb_config.h`` to match your GPIO settings for USB;
 
 ``make flash``
 
@@ -32,10 +30,15 @@ There are relevant terminal settings that can be reached by pressing cog button 
 
 <img src="https://github.com/user-attachments/assets/f6c79832-5721-48b6-a186-eb1d9c997e35" width="500px">
 
-If you see continuous string of ``dmlock`` try pressing ``u`` button in the UI. It should unlock Debug Module and you should see the terminal output as shown above. If not, please share you results, so we can figure out universal unlocking procedure.
-
 If you want to run the tool locally, or maybe make changes to it, you can get it here:
 https://github.com/Subjective-Reality-Labs/WebLink_USB
+
+# Additions to minichlink
+Instead of using web tool, you can try new version of minichlink with USB terminal support. Submodule in this git pulls updated branch, so all you need to do is:
+
+``./ch32v003fun/minichlink/minichlink -kT -c 1209d003`` 
+
+and use it like normal minichlink terminal
 
 # What is it actually about
 
