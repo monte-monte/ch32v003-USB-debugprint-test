@@ -4,6 +4,7 @@ Provided example would output both to minichlink and [WebLink](https://subjectiv
 
 # TODO:
 - [x] ~~Add usb terminal polling function to minichlink~~
+- [ ] Make unlocking DM more realiable and efficient
 
 # To try:
 ``git clone https://github.com/monte-monte/ch32v003-USB-debugprint-test/ --recursive``
